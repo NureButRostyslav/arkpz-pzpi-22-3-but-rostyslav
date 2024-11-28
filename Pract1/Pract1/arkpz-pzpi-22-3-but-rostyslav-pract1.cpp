@@ -1,3 +1,8 @@
+#include <iostream>
+#include <stdexcept>
+#include <fstream>
+using namespace std;
+
 1. // Поганий приклад
 2. int x; 
 3. 
