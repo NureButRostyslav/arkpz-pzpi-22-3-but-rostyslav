@@ -1,12 +1,4 @@
 // Поганий приклад
-for (int i = 0; i < 10; i++)cout << i << endl;
-
-// Гарний приклад
-for (int index = 0; index < 10; ++index) {
-    cout << index << endl;
-}
-
-// Поганий приклад
 void calculate(int y, int z) {
     int x = y + z;
     cout << "Sum: " << x << endl;
