@@ -64,6 +64,10 @@ int calculateAddition(int firstNumber, int secondNumber) {
     return firstNumber + secondNumber;
 }
 
+int calculateMultiplication(int firstNumber, int secondNumber) {
+    return firstNumber * secondNumber;
+}
+
 // Поганий приклад
 if (dataSize == 0) return;
 for (int i = 0; i < 10; i++) cout << "ok" << endl;
