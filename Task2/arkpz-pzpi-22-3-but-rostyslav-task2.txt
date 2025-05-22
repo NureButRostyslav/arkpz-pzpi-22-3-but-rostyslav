@@ -32,3 +32,257 @@
 
 
 Харків 2024
+
+1 МЕТА РОБОТИ
+Метою лабораторної роботи є розробка серверної частини програмної системи для управління корпоративними ресурсами у коворкінгах, включаючи базу даних та API. Робота передбачає створення структури бази даних, яка забезпечує зберігання інформації про користувачів, ресурси, витрати та бюджети. Необхідно реалізувати REST API для взаємодії клієнтів із сервером, що підтримує авторизацію, створення витрат, аналітику та управління бюджетами. Також потрібно створити специфікацію API, протестувати функціональність та задокументувати результати.
+
+2 ХІД РОБОТИ
+
+У процесі виконання лабораторної роботи №2 було виконано низку завдань, які охоплюють проектування, розробку, тестування та документування серверної частини системи. Нижче наведено детальний опис виконаних етапів, структурованих за логічними пунктами, із зазначенням відповідних додатків.
+2.1 Розробка будови програмної системи
+Було спроектовано серверну частину системи на основі Django та Django REST Framework. Система включає базу даних SQLite, REST API для взаємодії з клієнтами та адмін-панель для управління даними. Визначено основні функції: авторизація (MF1), створення та перегляд витрат (MF2), аналітика витрат (MF6) та управління бюджетами (MF7). Створено UML діаграму прецедентів, яка відображає взаємодію користувачів із системою (Додаток А). Для документування API використано Swagger UI, інтегроване через drf-yasg (Додаток Г).
+2.2 Проектування бази даних
+Розроблено ER діаграму даних, яка включає сутності: UserProfile, Resource, Expense, Budget (Додаток Б). Сутність UserProfile пов’язана з User для авторизації, Expense об’єднує користувачів і ресурси для витрат, а Budget відповідає за корпоративні бюджети. На основі ER діаграми створено діаграму структури бази даних із таблицями та їх зв’язками (Додаток В). База даних реалізована в SQLite через Django ORM, а міграції застосовані автоматично (файл: api/migrations/0001_initial.py).
+2.3 Розробка функцій роботи з базою даних
+Функції роботи з базою даних реалізовано через Django ORM. Моделі (api/models.py) включають методи для автоматичного розрахунку витрат у Expense (метод save). Серіалізатори (api/serializers.py) забезпечують перетворення даних для API. Логіка CRUD-операцій реалізована у ViewSet класах (api/views.py), що підтримують створення, читання, оновлення та видалення записів (Додаток Д). Наприклад, ExpenseViewSet обробляє запити для MF2, а analytics_view — для MF6.
+2.4 Розробка та тестування API
+Розроблено REST API з ендпоінтами:
+POST /api/login/ (MF1) для авторизації.
+POST /api/expenses/, GET /api/expenses/ (MF2) для витрат.
+GET /api/analytics/ (MF6) для аналітики.
+POST /api/budgets/, GET /api/budgets/ (MF7) для бюджетів.
+API задокументовано через Swagger (файл: coworking_system/urls.py, Додаток Г). Тестування проведено через Swagger UI (http://127.0.0.1:8000/swagger/) та curl. Виявлено та виправлено помилки: 403 Forbidden (відсутність автентифікації), 400 Bad Request (некоректні ID), проблема "No parameters" (вирішена через @parser_classes([JSONParser]) у api/views.py). Логи сервера підтверджують успішні запити (наприклад, [22/May/2025 19:38:34] "POST /api/expenses/ HTTP/1.1" 201 128).
+
+2.5 Документування та збереження результатів
+Код завантажено до GitHub у гілку main (файли: coworking_system/*, api/*). Створено відеодемонстрацію тривалістю 7-9 хвилин, яка включає тестування всіх функцій (MF1, MF2, MF6, MF7). Відео завантажено на YouTube (акаунт nure.ua) з українською мовою та субтитрами, із хронологічним описом. Звіт експортовано у PDF та текстовий файл (lab2_report.txt) з кодуванням UTF-8, завантажено на dl.nure.ua та GitHub.
+
+
+
+ВИСНОВКИ
+У рамках лабораторної роботи розроблено серверну частину системи управління корпоративними ресурсами у коворкінгах. Створено базу даних SQLite із таблицями для користувачів, ресурсів, витрат і бюджетів, що відповідає ER діаграмі та діаграмі структури. Реалізовано REST API з підтримкою авторизації, управління витратами, аналітики та бюджетів, задокументоване через Swagger UI. Успішно протестовано всі функції (MF1, MF2, MF6, MF7). Система готова до комерційного використання після додавання JWT-автентифікації та захисту від брутфорсу. Робота виконана повністю, усі вимоги лабораторної дотримані.
+
+
+ДОДАТОК А
+UML діаграма прецедентів
+
+Рисунок А.1 – Діаграма прецедентів авторизації
+
+Рисунок А.2 – Діаграма прецедентів управління витратами
+
+Рисунок А.3 – Діаграма прецедентів аналітики та бюджетів
+
+
+ДОДАТОК Б
+Модель «сутність — зв'язок»
+
+Рисунок Б.1 – Модель «сутність — зв'язок»
+
+
+ДОДАТОК В
+Діаграма структури бази даних
+
+Рисунок В.1 – Діаграма структури бази даних
+
+
+ДОДАТОК Г
+Специфікація прикладного програмного інтерфейсу
+
+openapi: 3.0.0
+info:
+  title: Coworking Management API
+  description: API для управління корпоративними ресурсами у коворкінгах
+  version: 1.0.0
+components:
+  securitySchemes:
+    SessionAuth:
+      type: apiKey
+      in: cookie
+      name: sessionid
+      description: Сесійна авторизація Django
+  schemas:
+    User:
+      type: object
+      required: [id, username, email, corporate_account_id]
+      properties:
+        id: { type: integer }
+        username: { type: string }
+        email: { type: string }
+        corporate_account_id: { type: integer }
+    Resource:
+      type: object
+      required: [id, name, cost_per_hour]
+      properties:
+        id: { type: integer }
+        name: { type: string }
+        cost_per_hour: { type: number }
+    Expense:
+      type: object
+      required: [id, user_id, resource_id, start_time, end_time, total_cost]
+      properties:
+        id: { type: integer }
+        user_id: { type: integer }
+        resource_id: { type: integer }
+        start_time: { type: string, format: date-time }
+        end_time: { type: string, format: date-time }
+        total_cost: { type: number }
+    Budget:
+      type: object
+      required: [id, corporate_account_id, limit_amount]
+      properties:
+        id: { type: integer }
+        corporate_account_id: { type: integer }
+        limit_amount: { type: number }
+security:
+  - SessionAuth: []
+paths:
+  /api/login/:
+    post:
+      summary: Авторизація користувача
+      tags: [Auth]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username: { type: string, example: "user@example.com" }
+                password: { type: string, example: "password123" }
+      responses:
+        200:
+          description: Успішна авторизація
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message: { type: string, example: "Login successful" }
+        401:
+          description: Невірний логін або пароль
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error: { type: string, example: "Invalid credentials" }
+  /api/users/:
+    get:
+      summary: Отримати список користувачів
+      tags: [Users]
+      responses:
+        200:
+          description: Список користувачів
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/User'
+    post:
+      summary: Створити користувача
+      tags: [Users]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+      responses:
+        201:
+          description: Користувач створений
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+  /api/expenses/:
+    get:
+      summary: Отримати список витрат
+      tags: [Expenses]
+      responses:
+        200:
+          description: Список витрат
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Expense'
+    post:
+      summary: Створити витрату
+      tags: [Expenses]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                user_id: { type: integer }
+                resource_id: { type: integer }
+                start_time: { type: string, format: date-time }
+                end_time: { type: string, format: date-time }
+      responses:
+        201:
+          description: Витрата створена
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Expense'
+  /api/analytics/:
+    get:
+      summary: Отримати аналітику витрат
+      tags: [Analytics]
+      responses:
+        200:
+          description: Аналітика витрат
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  total_cost: { type: number }
+  /api/budgets/:
+    get:
+      summary: Отримати список бюджетів
+      tags: [Budgets]
+      responses:
+        200:
+          description: Список бюджетів
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Budget'
+    post:
+      summary: Створити бюджет
+      tags: [Budgets]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                corporate_account_id: { type: integer }
+                limit_amount: { type: number }
+      responses:
+        201:
+          description: Бюджет створений
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Budget'
+
+
+ДОДАТОК Д
+Код взаємодії між сервером, клієнтом та базою даних
+
+Логіка взаємодії з базою даних:
+
+Логіка взаємодії з клієнтом:
+
+Приклад взаємодії з клієнтом (Swagger):
+
+
+
