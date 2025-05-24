@@ -4,8 +4,8 @@ from pathlib import Path
 # Шлях до папки проєкту
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# Секретний ключ для безпеки (зміни для комерційного використання)
-SECRET_KEY = 'django-insecure-c02+tta+#b2*r&%#^dldd8kt=$-%&psp$un^*usz=y4a^c!t83'
+# Секретний ключ для безпеки
+SECRET_KEY = 'django-insecure-249ір9кн93к38ап9цкпис9а'
 
 # Режим розробки (вимкни для продакшену)
 DEBUG = True
@@ -96,6 +96,6 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Налаштування безпеки для комерційного використання
-SECURE_SSL_REDIRECT = False  # Увімкни True для HTTPS
-CSRF_COOKIE_SECURE = False  # Увімкни True для HTTPS
-SESSION_COOKIE_SECURE = False  # Увімкни True для HTTPS
+SECURE_SSL_REDIRECT = False  # True для HTTPS
+CSRF_COOKIE_SECURE = False  # True для HTTPS
+SESSION_COOKIE_SECURE = False  # True для HTTPS
