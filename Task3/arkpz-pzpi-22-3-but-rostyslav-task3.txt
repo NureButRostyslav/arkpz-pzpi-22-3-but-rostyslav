@@ -418,4 +418,8 @@ admin.site.register(Expense)
 admin.site.register(Budget)
 admin.site.register(ActionLog)
 
-     
+ДОДАТОК Б
+Посилання на відеозвіт
+
+     Посилання: https://
+
