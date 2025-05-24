@@ -439,5 +439,8 @@ paths:
 92     total_cost = sum(expense.total_cost for expense in expenses)
 93     return Response({'total_cost': total_cost}, status=status.HTTP_200_OK)
 
+ДОДАТОК Е
+Посилання на відеозвіт
 
+     Посилання: https://
 
