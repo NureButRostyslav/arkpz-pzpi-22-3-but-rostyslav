@@ -48,7 +48,7 @@
 2.4 Розробка та тестування API
 Розроблено REST API з ендпоінтами:
 POST /api/login/ (MF1) для авторизації.
-POST /api/expenses/, GET /api/expenses/ (MF2) для витрат.
+POST /api/expenses/, GET /api/expenses/ (MF2) для ресурсів.
 GET /api/analytics/ (MF6) для аналітики.
 POST /api/budgets/, GET /api/budgets/ (MF7) для бюджетів.
 API задокументовано через Swagger (файл: coworking_system/urls.py, Додаток Г). Тестування проведено через Swagger UI (http://127.0.0.1:8000/swagger/) та curl. Виявлено та виправлено помилки: 403 Forbidden (відсутність автентифікації), 400 Bad Request (некоректні ID), проблема "No parameters" (вирішена через @parser_classes([JSONParser]) у api/views.py). Логи сервера підтверджують успішні запити (наприклад, [22/May/2025 19:38:34] "POST /api/expenses/ HTTP/1.1" 201 128).
