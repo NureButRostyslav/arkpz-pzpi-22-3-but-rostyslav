@@ -421,5 +421,5 @@ admin.site.register(ActionLog)
 ДОДАТОК Б
 Посилання на відеозвіт
 
-     Посилання: https://youtu.be/eRCLMC_v0Ls
+     Посилання: https://youtu.be/eRCLKC_v0Ls
 
